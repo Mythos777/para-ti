@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Para Ti ✦</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blush: #E8D5C4;
+      --mauve: #C4A8C0;
+      --sage:  #A8B8A4;
+      --ivory: #F7F3EF;
+      --ink:   #2D2926;
+      --mist:  #EDE8E3;
+      --accent:#B09BA8;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --ivory:#1E1A18; --mist:#272220; --ink:#EDE8E3;
+        --blush:#8C6B5A; --mauve:#7A6478; --sage:#5E6E5A; --accent:#8C8090;
+      }
+    }
+    *, *::before, *::after { box-sizing: inherit; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ivory); color: var(--ink);
+      font-family: 'DM Sans', sans-serif; font-weight: 300;
+      line-height: 1.7; -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: env(safe-area-inset-top,0px); left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:1.4rem 2.5rem;
+      background: color-mix(in srgb, var(--ivory) 85%, transparent);
+      border-bottom: 1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+      backdrop-filter: blur(12px);
+    }
+    nav .logo { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.25rem; letter-spacing:.03em; color:var(--accent); }
+    nav ul { list-style:none; display:flex; gap:1.8rem; }
+    nav ul li a { text-decoration:none; font-size:.78rem; letter-spacing:.12em; color:var(--ink); opacity:.6; transition:opacity .2s; }
+    nav ul li a:hover { opacity:1; }
+
+    /* HERO */
+    #hero {
+      min-height: 100svh; display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      text-align:center; padding:8rem 2rem 4rem; position:relative; overflow:hidden;
+    }
+    #hero::before {
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 60%, color-mix(in srgb,var(--blush) 40%,transparent) 0%,transparent 70%),
+        radial-gradient(ellipse 50% 55% at 80% 30%, color-mix(in srgb,var(--mauve) 30%,transparent) 0%,transparent 65%),
+        radial-gradient(ellipse 40% 40% at 55% 85%, color-mix(in srgb,var(--sage) 25%,transparent) 0%,transparent 60%);
+    }
+    .hero-eyebrow { font-size:.75rem; letter-spacing:.22em; color:var(--accent); margin-bottom:2rem; }
+    .hero-title {
+      font-family:'Cormorant Garamond',serif; font-weight:300;
+      font-size:clamp(3.2rem,10vw,7.5rem); line-height:1.0;
+      max-width:14ch; margin:0 auto 2.5rem;
+    }
+    .hero-title em { font-style:italic; color:var(--accent); }
+    .hero-sub { font-size:1rem; max-width:38ch; opacity:.65; margin-bottom:3rem; }
+    .hero-scroll { display:flex; align-items:center; gap:.6rem; font-size:.75rem; letter-spacing:.1em; opacity:.4; text-decoration:none; color:inherit; }
+    .hero-scroll::after { content:'↓'; font-size:1rem; animation:bounce 2s infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+
+    /* SECTIONS */
+    section { padding:7rem 2rem; max-width:900px; margin:0 auto; }
+    .section-label { font-size:.7rem; letter-spacing:.2em; color:var(--accent); margin-bottom:3rem; display:flex; align-items:center; gap:1rem; }
+    .section-label::after { content:''; flex:1; height:1px; background:color-mix(in srgb,var(--accent) 25%,transparent); }
+    .section-title { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:clamp(2rem,5vw,3.2rem); line-height:1.1; margin-bottom:1.5rem; }
+    .section-title em { font-style:italic; color:var(--accent); }
+    .section-hint { opacity:.6; font-size:.88rem; max-width:50ch; margin-bottom:2.5rem; }
+
+    /* QUOTE */
+    #frase { text-align:center; padding:6rem 2rem; background:var(--mist); max-width:100%; }
+    #frase blockquote { max-width:600px; margin:0 auto; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(1.6rem,4vw,2.4rem); line-height:1.4; font-weight:300; }
+    #frase cite { display:block; margin-top:2rem; font-family:'DM Sans',sans-serif; font-style:normal; font-size:.8rem; letter-spacing:.1em; opacity:.5; }
+
+    /* PHOTOS */
+    .photo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .photo-slot { aspect-ratio:3/4; background:var(--mist); border-radius:4px; overflow:hidden; position:relative; transition:transform .3s; }
+    .photo-slot:first-child { grid-row:span 2; aspect-ratio:auto; }
+    .photo-slot:hover { transform:scale(1.015); }
+    .photo-slot img { width:100%; height:100%; object-fit:cover; display:block; }
+    .photo-slot .empty { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.6rem; opacity:.25; }
+    .photo-slot .empty span { font-size:1.6rem; }
+    .photo-slot .empty p { font-size:.72rem; letter-spacing:.08em; }
+
+    /* VIDEOS */
+    #videos { background:var(--mist); max-width:100%; padding:7rem 2rem; }
+    #videos .inner { max-width:900px; margin:0 auto; }
+    .video-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-top:2.5rem; }
+    .video-slot { aspect-ratio:16/9; background:var(--ivory); border-radius:4px; overflow:hidden; position:relative; transition:transform .3s; }
+    .video-slot:first-child { grid-column:span 2; aspect-ratio:16/7; }
+    .video-slot:hover { transform:scale(1.01); }
+    .video-slot video { width:100%; height:100%; object-fit:cover; display:block; }
+    .video-slot .empty { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.6rem; opacity:.25; }
+    .video-slot .empty span { font-size:2rem; }
+    .video-slot .empty p { font-size:.72rem; letter-spacing:.08em; }
+
+    /* CARTAS */
+    .cards-grid { display:grid; gap:1.5rem; grid-template-columns:1fr 1fr; }
+    .carta-card { background:var(--mist); border-radius:4px; padding:2rem 2rem 1.5rem; cursor:pointer; transition:transform .3s; min-height:220px; display:flex; flex-direction:column; }
+    .carta-card:first-child { grid-column:span 2; }
+    .carta-card:hover { transform:translateY(-3px); }
+    .carta-lock { font-size:1.1rem; margin-bottom:1rem; display:block; }
+    .carta-title { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:300; margin-bottom:.6rem; }
+    .carta-preview { font-size:.85rem; opacity:.55; flex:1; line-height:1.6; }
+    .carta-btn { margin-top:1.5rem; display:inline-block; font-size:.75rem; letter-spacing:.1em; border:1px solid color-mix(in srgb,var(--accent) 50%,transparent); border-radius:100px; padding:.4rem 1.2rem; cursor:pointer; transition:background .2s,color .2s; background:transparent; color:var(--ink); font-family:'DM Sans',sans-serif; }
+    .carta-btn:hover { background:var(--accent); color:var(--ivory); border-color:var(--accent); }
+
+    /* MODAL */
+    .modal-backdrop { position:fixed; inset:0; z-index:300; background:color-mix(in srgb,var(--ink) 60%,transparent); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:2rem; opacity:0; pointer-events:none; transition:opacity .3s; }
+    .modal-backdrop.open { opacity:1; pointer-events:all; }
+    .modal { background:var(--ivory); border-radius:8px; padding:3rem; max-width:560px; width:100%; max-height:80svh; overflow-y:auto; transform:translateY(16px); transition:transform .3s; position:relative; }
+    .modal-backdrop.open .modal { transform:translateY(0); }
+    .modal-close { position:absolute; top:1.2rem; right:1.4rem; background:none; border:none; font-size:1.3rem; cursor:pointer; opacity:.4; transition:opacity .2s; color:var(--ink); }
+    .modal-close:hover { opacity:1; }
+    .modal-title { font-family:'Cormorant Garamond',serif; font-weight:300; font-size:2rem; margin-bottom:1.5rem; }
+    .modal-body { font-size:.95rem; line-height:1.9; opacity:.8; white-space:pre-wrap; }
+
+    /* FRASES */
+    #frases { text-align:center; }
+    .frases-list { margin-top:3rem; display:flex; flex-direction:column; gap:2.5rem; }
+    .frase-item { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(1.3rem,3.5vw,1.9rem); font-weight:300; line-height:1.4; opacity:0; transform:translateY(12px); transition:opacity .6s,transform .6s; max-width:55ch; margin:0 auto; }
+    .frase-item.visible { opacity:1; transform:translateY(0); }
+    .frase-item:nth-child(even) { color:var(--accent); }
+
+    /* FOOTER */
+    footer { text-align:center; padding:5rem 2rem 4rem; border-top:1px solid color-mix(in srgb,var(--accent) 20%,transparent); }
+    .footer-heart { font-size:1.5rem; animation:pulse 2s infinite; display:block; margin-bottom:1rem; }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+    footer p { font-size:.82rem; opacity:.4; letter-spacing:.05em; }
+
+    /* RESPONSIVE */
+    @media(max-width:640px){
+      nav { padding:1.2rem 1.4rem; }
+      nav ul { gap:1rem; }
+      .photo-grid { grid-template-columns:1fr 1fr; }
+      .photo-slot:first-child { grid-row:span 1; }
+      .video-grid { grid-template-columns:1fr; }
+      .video-slot:first-child { grid-column:span 1; }
+      .cards-grid { grid-template-columns:1fr; }
+      .carta-card:first-child { grid-column:span 1; }
+    }
+    @media(prefers-reduced-motion:reduce){ *{ animation:none!important; transition:none!important; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">para ti ✦</span>
+  <ul>
+    <li><a href="#fotos">fotos</a></li>
+    <li><a href="#videos">videos</a></li>
+    <li><a href="#cartas">cartas</a></li>
+    <li><a href="#frases">frases</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="hero-eyebrow">con todo mi amor</p>
+  <h1 class="hero-title">Para la persona que <em>ilumina</em> mis días</h1>
+  <p class="hero-sub">Este pequeño rincón existe solo para ti — para recordarte lo mucho que significas.</p>
+  <a href="#fotos" class="hero-scroll">explorar</a>
+</section>
+
+<div id="frase">
+  <blockquote>
+    "El amor no se mide en grandes gestos, sino en los pequeños momentos que nunca olvidamos."
+    <cite>— Ian, para ti</cite>
+  </blockquote>
+</div>
+
+<!-- ============================================================
+     FOTOS
+     Pon tus imágenes en la carpeta assets/fotos/
+     Cambia los nombres abajo: foto1.jpg, foto2.jpg, etc.
+     Puedes usar .jpg .jpeg .png .webp
+     ============================================================ -->
+<section id="fotos">
+  <p class="section-label">momentos</p>
+  <h2 class="section-title">Nuestras <em>fotos</em></h2>
+  <p class="section-hint">Cada imagen, un momento que guardo.</p>
+
+  <div class="photo-grid">
+
+    <!-- FOTO 1 (grande, ocupa dos filas en desktop) -->
+    <div class="photo-slot">
+      <img src="assets/fotos/foto1.jpg" alt="foto 1"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="empty" style="display:none"><span>🖼</span><p>foto 1</p></div>
+    </div>
+
+    <!-- FOTO 2 -->
+    <div class="photo-slot">
+      <img src="assets/fotos/foto2.jpg" alt="foto 2"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="empty" style="display:none"><span>🖼</span><p>foto 2</p></div>
+    </div>
+
+    <!-- FOTO 3 -->
+    <div class="photo-slot">
+      <img src="assets/fotos/foto3.jpg" alt="foto 3"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="empty" style="display:none"><span>🖼</span><p>foto 3</p></div>
+    </div>
+
+    <!-- FOTO 4 -->
+    <div class="photo-slot">
+      <img src="assets/fotos/foto4.jpg" alt="foto 4"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="empty" style="display:none"><span>🖼</span><p>foto 4</p></div>
+    </div>
+
+    <!-- FOTO 5 -->
+    <div class="photo-slot">
+      <img src="assets/fotos/foto5.jpg" alt="foto 5"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="empty" style="display:none"><span>🖼</span><p>foto 5</p></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     VIDEOS
+     Pon tus videos en la carpeta assets/videos/
+     Cambia los nombres abajo: video1.mp4, video2.mp4, etc.
+     Recomendado: formato .mp4 (funciona en todos los celulares)
+     ============================================================ -->
+<div id="videos">
+  <div class="inner">
+    <p class="section-label">recuerdos</p>
+    <h2 class="section-title">Nuestros <em>videos</em></h2>
+    <p class="section-hint">Los momentos que quiero revivir contigo.</p>
+
+    <div class="video-grid">
+
+      <!-- VIDEO 1 (grande) -->
+      <div class="video-slot">
+        <video controls playsinline preload="metadata"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          <source src="assets/videos/video1.mp4" type="video/mp4">
+        </video>
+        <div class="empty" style="display:none"><span>🎬</span><p>video 1</p></div>
+      </div>
+
+      <!-- VIDEO 2 -->
+      <div class="video-slot">
+        <video controls playsinline preload="metadata"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          <source src="assets/videos/video2.mp4" type="video/mp4">
+        </video>
+        <div class="empty" style="display:none"><span>🎬</span><p>video 2</p></div>
+      </div>
+
+      <!-- VIDEO 3 -->
+      <div class="video-slot">
+        <video controls playsinline preload="metadata"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          <source src="assets/videos/video3.mp4" type="video/mp4">
+        </video>
+        <div class="empty" style="display:none"><span>🎬</span><p>video 3</p></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CARTAS -->
+<section id="cartas">
+  <p class="section-label">palabras</p>
+  <h2 class="section-title"><em>Cartas</em> para leer cuando necesites</h2>
+  <p class="section-hint">Ábrelas cuando la vida se sienta pesada.</p>
+
+  <div class="cards-grid">
+    <div class="carta-card" onclick="openCarta(0)">
+      <span class="carta-lock">💌</span>
+      <p class="carta-title">Para cuando estés triste</p>
+      <p class="carta-preview">Cuando el mundo se sienta gris y pesado, abre esta carta...</p>
+      <button class="carta-btn">Leer carta</button>
+    </div>
+    <div class="carta-card" onclick="openCarta(1)">
+      <span class="carta-lock">🌙</span>
+      <p class="carta-title">Para las noches difíciles</p>
+      <p class="carta-preview">Hay noches en que la distancia duele más. Pero quiero que sepas...</p>
+      <button class="carta-btn">Leer carta</button>
+    </div>
+    <div class="carta-card" onclick="openCarta(2)">
+      <span class="carta-lock">☀️</span>
+      <p class="carta-title">Para cuando necesites fuerza</p>
+      <p class="carta-preview">Eres la persona más valiente que conozco...</p>
+      <button class="carta-btn">Leer carta</button>
+    </div>
+    <div class="carta-card" onclick="openCarta(3)">
+      <span class="carta-lock">✨</span>
+      <p class="carta-title">Por qué te amo</p>
+      <p class="carta-preview">Esta carta no tiene un momento específico. Es solo para que sepas...</p>
+      <button class="carta-btn">Leer carta</button>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeCarta(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeCarta()">✕</button>
+    <p class="modal-title" id="modalTitle"></p>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- FRASES -->
+<section id="frases">
+  <p class="section-label">te lo recuerdo</p>
+  <h2 class="section-title">Frases que llevo<em> contigo</em></h2>
+  <div class="frases-list">
+    <p class="frase-item">"Eres la razón por la que creo que las cosas buenas sí existen."</p>
+    <p class="frase-item">"Tu sonrisa es lo primero que quiero ver y lo último que quiero olvidar."</p>
+    <p class="frase-item">"Gracias por elegirme, todos los días, aunque cueste."</p>
+    <p class="frase-item">"Estudias para sanar a otros — sin saber que ya me sanaste a mí."</p>
+    <p class="frase-item">"No sé qué haría sin la versión de mí que tú ves."</p>
+    <p class="frase-item">"Te amo no como se ama una idea bonita — te amo como se ama lo real."</p>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-heart">♡</span>
+  <p>Hecho con amor — solo para ti</p>
+  <p style="margin-top:.5rem;">Ian · para siempre</p>
+</footer>
+
+<script>
+  const cartas = [
+    { title:'Para cuando estés triste 💌', body:`Amor,
+
+Si estás leyendo esto es porque hoy pesa un poco más. Y está bien. No tienes que estar bien todo el tiempo.
+
+Quiero que sepas que en cada momento difícil que has vivido, yo he estado pensando en ti — aunque estemos lejos, aunque no lo haya dicho con suficientes palabras.
+
+Eres humana. Y precisamente eso es lo que más me enamora de ti: que sientes todo con tanta profundidad, que te importa tanto.
+
+Respira. Este momento va a pasar.
+
+Y cuando pase, voy a estar aquí — como siempre.
+
+Te quiero,
+Ian` },
+    { title:'Para las noches difíciles 🌙', body:`Mi amor,
+
+Sé que hay noches que duelen diferente. Cuando el silencio es muy grande y la cama se siente demasiado vacía.
+
+En esas noches quiero que cierres los ojos y sepas que, estemos donde estemos, estoy pensando en ti. Que hay alguien que, aunque no pueda estar físicamente, lleva tu nombre en cada pensamiento.
+
+La distancia es real. El cansancio es real. Pero también es real lo que siento por ti.
+
+Mañana va a amanecer. Y conmigo vas a volver a reírte.
+
+Duerme, que yo cuido de tus sueños desde aquí.
+
+Ian` },
+    { title:'Para cuando necesites fuerza ☀️', body:`Amor,
+
+Estudias medicina. Sabes que el cuerpo humano es increíblemente resistente — y tú eres igual.
+
+Pero a veces olvidamos que somos lo que admiramos. Que la misma fuerza que ves en las páginas que estudias, la tienes tú también.
+
+No vas a rendirte. Porque te conozco. Porque sé de qué estás hecha.
+
+Cuando sientas que no puedes más: una respiración. Un paso. Y después otro.
+
+Estoy tan orgulloso de ti todos los días, incluso cuando no te lo digo.
+
+Puedes,
+Ian` },
+    { title:'Por qué te amo ✨', body:`Mi amor,
+
+No hay un "por qué" solo. Hay miles.
+
+Te amo por cómo te ríes cuando algo te da pena.
+Por cómo te importa tanto lo que estudias.
+Por cómo eres con la gente que quieres.
+Por tu forma de mirar las cosas.
+Por cómo me haces sentir cuando estás.
+
+Te amo en tus días fáciles y en los que cuestan.
+Te amo de lejos y cerca.
+Te amo ahora y cada día que viene.
+
+No tengo duda de eso.
+
+Para siempre,
+Ian` }
+  ];
+
+  function openCarta(i) {
+    document.getElementById('modalTitle').textContent = cartas[i].title;
+    document.getElementById('modalBody').textContent  = cartas[i].body;
+    document.getElementById('modalBackdrop').classList.add('open');
+  }
+  function closeCarta(e) {
+    if (!e || e.target === document.getElementById('modalBackdrop') || e.target.classList.contains('modal-close'))
+      document.getElementById('modalBackdrop').classList.remove('open');
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeCarta({ target: document.getElementById('modalBackdrop') });
+  });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((en, idx) => {
+      if (en.isIntersecting) setTimeout(() => en.target.classList.add('visible'), idx * 120);
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.frase-item').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
